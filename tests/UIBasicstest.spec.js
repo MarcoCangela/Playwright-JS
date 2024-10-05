@@ -159,7 +159,6 @@ const {test, expect} = require('@playwright/test');
 
         const text = await newPage.locator(".red").textContent();
         await newPage.close();
-        console.log(text);
 
         let newUsername = text.split('@')[1].trim();
         newUsername = newUsername.split(" ")[0].trim();

@@ -58,9 +58,19 @@ console.log(orderId);
 
 await page.getByRole('button', { name: ' HOME' }).click();
 await page.getByRole('button', { name: '   ORDERS' }).click();
+const totalOrders = await page.locator("tbody tr");
+await totalOrders.first().waitFor({ state: 'visible' });
 
+for(let j = 0; j < (await totalOrders.count()); j++) {
+  const orderIdRow = await totalOrders.nth(j).locator("th").textContent();
+  if (orderIdRow.includes(orderId)) {
+    await totalOrders.nth(j).locator("button").click(); 
+    break;
+  }
+}
 
-
-await page.pause();
+// const resultPage = await page.locator(".col-text").textContent();
+// expect((orderId).includes(resultPage)).toBeTruthy();
+// await page.pause();
 
 });
