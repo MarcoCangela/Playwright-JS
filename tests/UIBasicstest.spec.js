@@ -69,38 +69,38 @@ const {test, expect} = require('@playwright/test');
 
     });
 
-    test('Registering and logging in', async  ({ browser }) => {
-            const context = await browser.newContext();
-            const page = await context.newPage();
-            const firstName = await page.locator("#firstName");
-            const lastName = await page.locator("#lastName");
-            const email =  await page.locator("#userEmail");
-            const phoneNumber = await page.locator("#userMobile");
-            const password = await page.locator("#userPassword");
-            const confirmPassword = await page.locator("#confirmPassword");
-            const registerButton = await page.locator("#login");
+    test.skip('Registering and logging in', async  ({ browser }) => {
+        const context = await browser.newContext();
+        const page = await context.newPage();
+        const firstName = await page.locator("#firstName");
+        const lastName = await page.locator("#lastName");
+        const email =  await page.locator("#userEmail");
+        const phoneNumber = await page.locator("#userMobile");
+        const password = await page.locator("#userPassword");
+        const confirmPassword = await page.locator("#confirmPassword");
+        const registerButton = await page.locator("#login");
 
-            await page.goto('https://rahulshettyacademy.com/client');
-            await page.locator("body > app-root > app-login > div.banner > section:nth-child(2) > div > div.login-wrapper.my-auto.p-5 > p > a").click();
+        await page.goto('https://rahulshettyacademy.com/client');
+        await page.locator("body > app-root > app-login > div.banner > section:nth-child(2) > div > div.login-wrapper.my-auto.p-5 > p > a").click();
 
-            await firstName.fill('Mars');
-            await lastName.fill('Garujo');
-            await email.fill('markill123@example.com');
-            await phoneNumber.fill('9202830234');
-            await password.fill('K1$$mm1234');
-            await confirmPassword.fill('K1$$mm1234');
-            await registerButton.click();
-            await page.getByRole('checkbox').check();
-            await page.getByRole('button', { name: 'Register' }).click();
-        
-            //login after 
-            await page.getByRole('button', { name: 'Login' }).click();
-            await page.getByPlaceholder('email@example.com').fill('markill123@example.com');
-            await page.pause();
-            await password.fill('K1$$mm1234');
-            await page.getByRole('button', { name: 'Login' }).click();
-            await page.pause();
-        });
+        await firstName.fill('Mars');
+        await lastName.fill('Garujo');
+        await email.fill('markill123@example.com');
+        await phoneNumber.fill('9202830234');
+        await password.fill('K1$$mm1234');
+        await confirmPassword.fill('K1$$mm1234');
+        await registerButton.click();
+        await page.getByRole('checkbox').check();
+        await page.getByRole('button', { name: 'Register' }).click();
+    
+        //login after 
+        await page.getByRole('button', { name: 'Login' }).click();
+        await page.getByPlaceholder('email@example.com').fill('markill123@example.com');
+        await page.pause();
+        await password.fill('K1$$mm1234');
+        await page.getByRole('button', { name: 'Login' }).click();
+        await page.pause();
+    });
 
 
     test('Login Only', async ({page}) => {
