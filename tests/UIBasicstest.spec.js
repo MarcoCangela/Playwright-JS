@@ -101,3 +101,73 @@ const {test, expect} = require('@playwright/test');
             await page.getByRole('button', { name: 'Login' }).click();
             await page.pause();
         });
+
+
+    test('Login Only', async ({page}) => {
+        await page.goto('https://rahulshettyacademy.com/client');
+        await page.locator("#userEmail").fill("markill123@example.com");
+        await page.locator("#userPassword").fill("K1$$mm1234");
+        await page.locator("[value='Login']").click();
+
+        //applying wait mechanisms to ensure that the content is not empty on titles variable
+        await page.waitForLoadState('networkidle');
+        //waiting fot the element to be filled 
+        // await page.locator(".card-body b").waitFor(); 
+        const titles = await page.locator(".card-body b").allTextContents();
+        console.log(titles);
+        await page.pause();
+    });
+        
+
+    test('UIControl', async ({page}) => {
+        await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+        const username = page.locator("#username");
+        const password = page.locator("#password");
+        const documentLink = page.locator("[href*='documents-request']");
+
+        //Get the dropdown menu and then selecting the option
+        const dropdown = page.locator("select.form-control");
+        await dropdown.selectOption("Consultant");
+        await page.locator(".radiotextsty").last().click();
+
+        //Handle the Popup
+        await page.locator("#okayBtn").click();
+        await expect(page.locator(".radiotextsty").last()).toBeChecked();
+        await page.locator("#terms").check();
+        await expect(page.locator("#terms")).toBeChecked();
+
+        //asserion to check attribute value on blinking text 
+        await expect(documentLink).toHaveAttribute("class", "blinkingText");
+
+
+        // await page.pause();
+
+    })
+
+    test('Child Windows and other Tabs', async ({browser}) => {
+        const context = await browser.newContext();
+        const page = await context.newPage();
+        
+        await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+        const documentLink = page.locator("[href*='documents-request']");
+        // const page2 = await context.waitForEvent('page');
+
+        const [newPage] = await Promise.all([
+           context.waitForEvent('page'),
+           documentLink.click()
+        ]);
+
+        const text = await newPage.locator(".red").textContent();
+        await newPage.close();
+        console.log(text);
+
+        let newUsername = text.split('@')[1].trim();
+        newUsername = newUsername.split(" ")[0].trim();
+
+        await page.locator("#username").type(newUsername);
+        await page.locator("#password").type("12345");
+        await page.locator("#terms").check();
+        await page.locator("#signInBtn").click();
+        await page.pause();
+
+    })
