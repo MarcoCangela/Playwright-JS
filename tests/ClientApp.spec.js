@@ -25,7 +25,7 @@ test('Cleaning Code', async ({ page }) => {
   
     await page.getByPlaceholder("Select Country").pressSequentially("Moz");
   
-    await page.getByRole("button",{name :"Mozambique"}).nth(1).click();
+    await page.getByRole("button",{name :"Mozambique"}).nth(0).click();
     await page.getByText("PLACE ORDER").click();
   
     await expect(page.getByText("Thankyou for the order.")).toBeVisible();
