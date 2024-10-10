@@ -30,7 +30,7 @@ test.only("Mocking a Response to the server", async ({ page }) => {
 
   await page.goto("https://rahulshettyacademy.com/client");
   
-  await page.route('https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/67005e8aae2afd4c0b8f787c', async route => {
+  await page.route('https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*', async route => {
       //intercepting the response and mocking the response
      const serverResponse = await page.request.fetch(route.request());
      //Passing the mocked response to the browser
@@ -42,7 +42,7 @@ test.only("Mocking a Response to the server", async ({ page }) => {
   })
 
   await page.locator("button[routerlink*='myorders']").click();
-  await page.waitForResponse('https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/67005e8aae2afd4c0b8f787c')
+  await page.waitForResponse('https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*')
   console.log(await page.locator(".mt-4").textContent());
 
   
