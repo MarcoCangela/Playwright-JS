@@ -1,5 +1,5 @@
 const { test, expect, request } = require("@playwright/test");
-const {APIUtils} = require("../utils/APIUtils");
+const { APIUtils } = require("../utils/APIUtils");
 
 const loginPayload = {
   userEmail: "markill123@example.com",
@@ -11,13 +11,12 @@ const orderPayload = {
 };
 
 const mockedResponse = {
-    data: [],
-    message: "No orders"
-}
+  data: [],
+  message: "No orders",
+};
 
 let response;
 test.beforeAll(async () => {
-
   const apiContext = await request.newContext();
   const apiUtils = new APIUtils(apiContext, loginPayload);
   response = await apiUtils.createOrder(orderPayload);
@@ -29,21 +28,24 @@ test.only("Mocking a Response to the server", async ({ page }) => {
   }, response.token);
 
   await page.goto("https://rahulshettyacademy.com/client");
-  
-  await page.route('https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*', async route => {
+
+  await page.route(
+    "https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*",
+    async (route) => {
       //intercepting the response and mocking the response
-     const serverResponse = await page.request.fetch(route.request());
-     //Passing the mocked response to the browser
-     let body = JSON.stringify(mockedResponse);
+      const serverResponse = await page.request.fetch(route.request());
+      //Passing the mocked response to the browser
+      let body = JSON.stringify(mockedResponse);
       route.fulfill({
         serverResponse,
         body,
-      })
-  })
+      });
+    }
+  );
 
   await page.locator("button[routerlink*='myorders']").click();
-  await page.waitForResponse('https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*')
+  await page.waitForResponse(
+    "https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*"
+  );
   console.log(await page.locator(".mt-4").textContent());
-
-  
 });
