@@ -38,3 +38,19 @@ test('Intercepting CSS with routes', async ({browser}) => {
     // await page.pause();
 
 })
+
+test("Screenshotting & Visual Comparison", async ({page}) => {
+    await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+    await expect(page.locator('#displayed-text')).toBeVisible();
+    await page.locator('#displayed-text').screenshot({path: 'elementSS.png'});
+    await page.screenshot({path: 'screenshotBefore.png', fullPage: true});
+    await page.locator('#hide-textbox').click();
+    await page.screenshot({path: 'screenshotAfter.png', fullPage: true});
+    await expect(page.locator('#displayed-text')).toBeHidden();
+})
+
+test('Visual Testing', async ({page}) => {
+    await page.goto("https://www.rediff.com/");
+    expect(await page.screenshot()).toMatchSnapshot('landing.png');
+    
+})
