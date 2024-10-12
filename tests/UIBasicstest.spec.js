@@ -163,8 +163,8 @@ const {test, expect} = require('@playwright/test');
         let newUsername = text.split('@')[1].trim();
         newUsername = newUsername.split(" ")[0].trim();
 
-        await page.locator("#username").type(newUsername);
-        await page.locator("#password").type("12345");
+        await page.locator("#username").fill(newUsername);
+        await page.locator("#password").fill("12345");
         await page.locator("#terms").check();
         await page.locator("#signInBtn").click();
         await page.pause();
