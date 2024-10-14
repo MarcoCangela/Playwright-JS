@@ -42,21 +42,20 @@ async function readExcel(currentWorksheet, texto) {
 
 test("Validations with excel with downloads and uploads", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/upload-download-test/index.html");
+  const textSearch = 'Banana';
+  const updateValue = '850';
 
   const downloadWait = page.waitForEvent("download");
   await page.getByRole("button", { name: "Download" }).click();
   const download = await downloadWait;
   console.log("Download completed");
   
-  await writeExcelTest(
-    "Banana",
-    850,
-    { rowChange: 0, colChange: 2 },
-    "/Users/marcogarujo/Downloads/download.xlsx"
-  );
+  await writeExcelTest(textSearch,updateValue,{ rowChange: 0, colChange: 2 },"/Users/marcogarujo/Downloads/download.xlsx"  );
   await page.locator("#fileinput").click();
-  await page
-    .locator("#fileinput")
-    .setInputFiles("/Users/marcogarujo/Downloads/download.xlsx");
+  await page.locator("#fileinput").setInputFiles("/Users/marcogarujo/Downloads/download.xlsx");
   await page.pause();
+  const textlocator = page.getByText(textSearch);
+  const desiredRow = await page.getByRole('row').filter({has :textlocator });
+  await expect(desiredRow.locator("#cell-4-undefined")).toContainText(updateValue);
+
 });
