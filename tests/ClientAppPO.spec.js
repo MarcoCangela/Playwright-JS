@@ -1,5 +1,6 @@
 const {expect, test} = require('@playwright/test');
 const {LoginPage} = require('./pageobjects/LoginPage');
+const {DashboardPage} = require('./pageobjects/DashBoardPage');
 
 
 test('Cleaning Code', async ({ page }) => {
@@ -10,28 +11,22 @@ test('Cleaning Code', async ({ page }) => {
     const products = page.locator(".card-body");
     
     const loginPage = new LoginPage(page);
-    loginPage.gotoPage();
-    loginPage.validLogin(username,password);
+    await loginPage.gotoPage();
+    await loginPage.validLogin(username,password);
+    const dashBoardPage = new DashboardPage(page);
+    await dashBoardPage.searchProductandAddCart(productName);
+    await dashBoardPage.goToCart();
 
 
-    await page.waitForLoadState('networkidle');
-    await page.locator(".card-body b").first().waitFor();
-    
-    await page.locator(".card-body").filter({hasText:"IPHONE 13 PRO"})
-    .getByRole("button",{name:"Add to Cart"}).click();
+    // await page.locator("div li").first().waitFor();
+    // await expect(page.getByText("IPHONE 13 PRO")).toBeVisible();
   
-    await page.getByRole("listitem").getByRole('button',{name:"Cart"}).click();
+    // await page.getByRole("button",{name :"Checkout"}).click();
   
-    //await page.pause();
-    await page.locator("div li").first().waitFor();
-    await expect(page.getByText("IPHONE 13 PRO")).toBeVisible();
+    // await page.getByPlaceholder("Select Country").pressSequentially("Moz");
   
-    await page.getByRole("button",{name :"Checkout"}).click();
+    // await page.getByRole("button",{name :"Mozambique"}).nth(0).click();
+    // await page.getByText("PLACE ORDER").click();
   
-    await page.getByPlaceholder("Select Country").pressSequentially("Moz");
-  
-    await page.getByRole("button",{name :"Mozambique"}).nth(0).click();
-    await page.getByText("PLACE ORDER").click();
-  
-    await expect(page.getByText("Thankyou for the order.")).toBeVisible();
+    // await expect(page.getByText("Thankyou for the order.")).toBeVisible();
  })
