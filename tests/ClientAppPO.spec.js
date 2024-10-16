@@ -1,19 +1,17 @@
 const {expect, test} = require('@playwright/test');
 const {POManager} = require('./pageobjects/POManager');
+const JsonData = JSON.parse(JSON.stringify(require('./../utils/placeorderTestData.json')));
 
 
 test('Cleaning Code', async ({ page }) => {
     const poManager = new POManager(page);
    
-    const username = "markill123@example.com";
-    const password = "K1$$mm1234";
-    const productName = 'Zara Coat 4';
     const products = page.locator(".card-body");
     const loginPage = poManager.getLoginPage();
     await loginPage.gotoPage();
-    await loginPage.validLogin(username, password);
+    await loginPage.validLogin(JsonData.username, JsonData.password);
     const dashBoardPage = poManager.getDashboardPage();
-    await dashBoardPage.searchProductandAddCart(productName);
+    await dashBoardPage.searchProductandAddCart(JsonData.productName);
     await dashBoardPage.gotoCart();
 
     // const cartPage = poManager.getCartPage();
