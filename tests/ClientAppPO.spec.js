@@ -5,6 +5,8 @@ const JsonData = JSON.parse(
   JSON.stringify(require("./../utils/placeorderTestData.json"))
 );
 
+test.describe.configure({ mode: "parallel" });
+
 test("Cleaning Code", async ({ page }) => {
   const poManager = new POManager(page);
 
