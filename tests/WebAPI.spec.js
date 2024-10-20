@@ -1,5 +1,5 @@
 const { test, expect, request } = require("@playwright/test");
-const {APIUtils} = require("../utils/APIUtils");
+const {APIUtils} = require('./../utils/APIUtils');
 
 const loginPayload = {
   userEmail: "markill123@example.com",
@@ -18,7 +18,7 @@ test.beforeAll(async () => {
   response = await apiUtils.createOrder(orderPayload);
 });
 
-test.only("Login and order page validation", async ({ page }) => {
+test("@API Login and order page validation", async ({ page }) => {
   page.addInitScript((value) => {
     window.localStorage.setItem("token", value);
   }, response.token);
