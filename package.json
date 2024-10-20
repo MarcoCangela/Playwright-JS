@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "regression": "npx playwright test",
-    "API" : "npx playwright test --grep=API",
+    "API": "npx playwright test --grep=API",
     "generate-report": "allure generate  ./allure-results --clean && allure open ./allure-report"
   },
   "keywords": [],
@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@cucumber/cucumber": "^11.0.1",
     "@playwright/test": "^1.48.1",
     "@types/node": "^22.7.4",
     "allure-commandline": "^2.30.0",
